@@ -1,15 +1,11 @@
-database = "Learn"
-host = "localhost"
-port = "5432"
-password = "123456"
-user = "postgres"
+import config
 from sqlalchemy import create_engine
 from sqlalchemy.orm import session, sessionmaker
 class DbConnection:
 
     def __init__(self):
         self.engine_to_dispose = create_engine(
-            'postgresql+psycopg2://{0}:{1}@{2}/{3}'.format(user, password, host + ':' + port, database))
+            'postgresql+psycopg2://{0}:{1}@{2}/{3}'.format(config.user, config.password, config.host + ':' + config.port, config.database))
         self.engine  = self.engine_to_dispose.connect()
         self.Session = sessionmaker()
         self.Session.configure(bind=self.engine)
@@ -18,4 +14,4 @@ class DbConnection:
         self.cursor = self.connection.cursor()
         print("connected")
 
-    conn = DbConnection()
+conn = DbConnection()
