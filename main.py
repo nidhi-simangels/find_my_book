@@ -1,33 +1,19 @@
-from flask import Flask,request
-
-
+from flask import Flask, request,Response
+import json
+from modal.db.connection import connection
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    cursor = connection.engine.execute("select name from d_book")
+    data=cursor.fetchall()
+    list_name =[]
+    for i in data:
+       list_name.append(i[0])
 
-@app.route('/nidhi')
-def hello_world1():
-    return render_template('front.html')
-
-
-@app.route('/login',methods=["POST"])
-def checkLogin():
-     UN = request.form['username']
-     PS = request.form['password']
-
-     sqlconnection = sqlite3.connection(currentlocation +"\login.db")
-     cursor =  sqlconnection.cursor()
-     query1="select username ,password from users WHERE username={un} and password={ps}".format(un=UN,ps=PS)
-     rows = cursor.execute(query1)
-     rows = rows.fetchall()
-     if len(rows)==1:
-         return "frontend"
-     else:
-         return "not to attendpage"
-
+    response_data = {"status": 200, "message": list_name}
+    return Response(json.dumps(response_data),mimetype='application/json',status=response_data["status"])
 
 
 if __name__ == '__main__':

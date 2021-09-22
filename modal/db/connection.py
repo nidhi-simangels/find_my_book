@@ -14,4 +14,4 @@ class DbConnection:
         self.cursor = self.connection.cursor()
         print("connected")
 
-conn = DbConnection()
+connection = DbConnection()
