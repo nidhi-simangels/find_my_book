@@ -66,7 +66,7 @@ def jwt_login():
         data = cursor.fetchall()
         print(data)
         if len(data)>0:
-            token=jwt_services.createToken(user_id=1)
+            token=jwt_services.createToken(user_id=data[0][0])
             response_data = {"statusCode": 200, "body": "Login Successfully.","token":token}
         else:
             response_data = {"statusCode": 403, "body": "Login Falied!"}

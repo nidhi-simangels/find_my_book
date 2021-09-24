@@ -1,12 +1,16 @@
 from flask import Blueprint, Response,request,session
 import json
 from modal.db.connection import connection
+from modal.authentication.jwt_services import login_decorator
 
 book_app= Blueprint('book_app', __name__)
 
 @book_app.route('/search_book',methods=['GET'])
-def search_book():
+@login_decorator
+def search_book(user_id):
     try:
+        print("user_id",user_id)
+
         data_dict=request.args
         name= data_dict.get("name")
         if name==None or name.split()=="":
