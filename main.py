@@ -4,14 +4,14 @@ from modal.db.connection import connection
 from apis.auth import  auth_app
 from apis.summary import  summary_app
 from apis.books import  book_app
-
+from apis.users import user_app
 
 app = Flask(__name__)
 
 app.register_blueprint(auth_app)
 app.register_blueprint(summary_app)
 app.register_blueprint(book_app)
-
+app.register_blueprint(user_app)
 
 # getbook
 #

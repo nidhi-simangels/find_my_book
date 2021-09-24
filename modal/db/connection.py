@@ -89,4 +89,26 @@ class DbConnection:
             return {"statusCode":500,"body":"error in search_book "+str(e) }
 
 
+    def get_user_favorite(self,user_id):
+        try:
+            query = """
+                        select book_id from h_user_fav_book where user_id = %(user_id)s;
+                    """
+            curser = self.engine.execute(query,{"user_id":user_id})
+            response = curser.fetchall()
+            data =  []
+            for row_tuple in  response:
+                data_dict = {}
+                for index,key in enumerate(curser.keys()):
+                    data_dict[key] = int(row_tuple[index])
+                data.append(data_dict)
+            print("data",data)
+            return {"statusCode":200,"body":data}
+
+
+        except Exception as e:
+            print("error in get_user_favorite", e)
+            return {"statusCode": 500, "body": "error in get_user_favorite" + str(e)}
+
+
 connection = DbConnection()
