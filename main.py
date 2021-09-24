@@ -2,10 +2,13 @@ from flask import Flask, request,Response
 import json
 from modal.db.connection import connection
 from apis.auth import  auth_app
+from apis.summary import  summary_app
 
 app = Flask(__name__)
 
 app.register_blueprint(auth_app)
+app.register_blueprint(summary_app)
+
 
 
 # getbook
