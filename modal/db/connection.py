@@ -45,8 +45,48 @@ class DbConnection:
 
         except Exception as e:
             print("error in get_book_summaryget_book_summary",e)
-            return {"statusCode":500,"body":"error in get_book_summaryget_book_summary "+e}
+            return {"statusCode":500,"body":"error in get_book_summaryget_book_summary "+str(e) }
 
+
+    def search_book(self,book_name):
+        try:
+            print("book_name",book_name)
+            query = """
+                    select
+                        book_id,
+                        name ,
+                        author,
+                        likes,
+                        page_count,
+                        isbn,
+                        description,
+                        prize,
+                        languages,
+                        published_at
+
+                        from d_books 
+                        where 
+                        lower(name)  like '%%{0}%%' ;
+                        """.format(book_name.lower())
+            curser = self.engine.execute(query)
+            response = curser.fetchall()
+            print(response)
+            data =  []
+            for row_tuple in  response:
+                data_dict = {}
+                for index,key in enumerate(curser.keys()):
+                    if key=='published_at':
+                        data_dict[key] = str(row_tuple[index])
+
+                    else:
+                        data_dict[key] = row_tuple[index]
+                data.append(data_dict)
+            print("data",data)
+            return {"statusCode":200,"body":data}
+
+        except Exception as e:
+            print("error in search_book",e)
+            return {"statusCode":500,"body":"error in search_book "+str(e) }
 
 
 connection = DbConnection()

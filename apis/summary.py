@@ -27,5 +27,3 @@ def book_summary():
         return response
 
 
-
-
