@@ -8,6 +8,30 @@ app = Flask(__name__)
 app.register_blueprint(auth_app)
 
 
+# getbook
+#
+# get genre
+#
+# login
+#
+# your fav book
+#
+# add your fav book
+#
+# rate the book
+#
+# books_summary
+# book id
+# such that number of comment
+# number of genre
+# how many person like this book
+# how many person rated
+# what is avg rating out of 5
+# how many person  add fav this book
+
+
+
+
 
 @app.route('/')
 def hello():
