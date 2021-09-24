@@ -1,6 +1,7 @@
 from flask import Blueprint, Response,request,session
 import json
 from modal.db.connection import connection
+from modal.authentication import jwt_services
 
 auth_app= Blueprint('auth', __name__)
 
@@ -49,5 +50,33 @@ def login():
         return response
 
 
+
+
+
+@auth_app.route('/jwt_login',methods=['GET'])
+def jwt_login():
+    try:
+        data_dict=request.args
+        email_id= data_dict.get("email_id")
+        password = data_dict.get("password")
+        query = """
+                select user_id from d_user where email_id = %(email_id)s and password = %(password)s;
+                """
+        cursor = connection.engine.execute(query, {"email_id":email_id,"password":password})
+        data = cursor.fetchall()
+        print(data)
+        if len(data)>0:
+            token=jwt_services.createToken(user_id=1)
+            response_data = {"statusCode": 200, "body": "Login Successfully.","token":token}
+        else:
+            response_data = {"statusCode": 403, "body": "Login Falied!"}
+
+        response = Response(json.dumps(response_data), mimetype='application/json', status=response_data["statusCode"])
+        return response
+    except Exception as e:
+        print("error in login", e)
+        response_data = {'status': 500, 'message': 'Internal Server Error ' + str(e)}
+        response = Response(json.dumps(response_data), mimetype='application/json', status=response_data["status"])
+        return response
 
 
