@@ -6,6 +6,7 @@ auth_app= Blueprint('auth', __name__)
 @auth_app.route('/login',methods=['GET'])
 def login():
     try:
+        print(request.args.get("email_id"))
         response_data = {"statusCode":200,"body":"Login Successfull"}
         response = Response(json.dumps(response_data), mimetype='application/json', status=response_data["statusCode"])
         return response
