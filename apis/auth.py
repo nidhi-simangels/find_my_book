@@ -9,6 +9,7 @@ auth_app= Blueprint('auth', __name__)
 def login():
     try:
 
+
         data_dict=request.args
         email_id= data_dict.get("email_id")
         password = data_dict.get("password")
@@ -71,10 +72,12 @@ def jwt_login():
         else:
             response_data = {"statusCode": 403, "body": "Login Falied!"}
 
+
         response = Response(json.dumps(response_data), mimetype='application/json', status=response_data["statusCode"])
         return response
     except Exception as e:
-        print("error in login", e)
+        print("error in lo"
+              "gin", e)
         response_data = {'status': 500, 'message': 'Internal Server Error ' + str(e)}
         response = Response(json.dumps(response_data), mimetype='application/json', status=response_data["status"])
         return response
